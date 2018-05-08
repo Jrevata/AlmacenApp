@@ -1,10 +1,12 @@
 package com.jrevata.almacenapp.app.almacenapp.activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.jrevata.almacenapp.app.almacenapp.R;
@@ -23,6 +25,24 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
+
+
+    private static final int REGISTER_FORM_REQUEST = 100;
+
+    public void showRegister(View view){
+        startActivityForResult(new Intent(this, RegisterActivity.class), REGISTER_FORM_REQUEST);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == REGISTER_FORM_REQUEST) {
+            // refresh data
+            initialize();
+        }
+    }
+
+
+
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -43,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         productosList = findViewById(R.id.recyclerview);
         productosList.setLayoutManager(new LinearLayoutManager(this));
 
-        productosList.setAdapter(new ProductosAdapter());
+        productosList.setAdapter(new ProductosAdapter(this));
 
         initialize();
     }
